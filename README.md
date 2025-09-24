@@ -1,23 +1,47 @@
-# F1 Lap Time Prediction
+F1 Race Lap Time Prediction
+Overview
 
-This project predicts Formula 1 race lap times and potential race winners using historical race data, driver performance metrics, and machine learning models. The goal is to estimate the lap times for each driver in a given race and identify the likely winner.
+This project predicts Formula 1 race outcomes by modeling lap times of drivers based on historical data, driver performance metrics, and team statistics. Using machine learning techniques, the model estimates each driver's predicted lap time and the total race time, helping to forecast the likely race winner.
 
-## Features
+The dataset includes lap times from the 2024 season, driver-specific metrics like qualifying performance, clean air pace, wet-weather skill, and team performance scores.
 
-- **Driver Performance Metrics**: Clean air pace, qualifying times, wet weather performance factors.
-- **Team Performance Metrics**: Team points, historical race performance.
-- **Race Data**: Historical lap times for each driver, sector times, and race conditions.
-- **Weather Data Integration**: Option to include weather conditions for race-day predictions.
+Features Used
+Feature	Description
+QualifyingTime	Driver's qualifying lap time at the race circuit
+team_performance_score	Team's historical performance metric
+CleanAirPace	Driver's pace in free air without traffic
+drive_wet_perf	Driver's wet-weather performance factor
+team_points	Team championship points prior to the race
+Target Variable
 
-## Technology Stack
+LapTime: Average lap time of a driver for the race (converted to seconds for modeling)
 
-- **Python**: Core programming language.
-- **FastF1**: To pull historical F1 race and lap data.
-- **Pandas & NumPy**: Data manipulation and preprocessing.
-- **Scikit-learn**: Data preprocessing, train-test split, metrics.
-- **XGBoost**: Gradient boosting model for lap time predictions.
-- **Matplotlib & Seaborn**: Data visualization.
-- **OpenWeatherMap API**: For fetching weather data (optional).
+Predicted lap times are converted to total race times by multiplying with the number of laps at the circuit.
 
-```bash
-git clone https://github.com/yourusername/F1_lap_time_prediction.git
+Approach
+
+Data Collection
+
+Lap times fetched from the FastF1 API
+
+Weather and track data fetched from OpenWeatherMap API
+
+Data Preprocessing
+
+Missing values handled using median imputation
+
+Timedelta lap times converted to seconds
+
+Modeling
+
+XGBoost Regressor is used to predict lap times per driver
+
+Hyperparameter tuning performed using cross-validation for optimal performance
+
+Predicted lap times are multiplied by total race laps to get full race time
+
+Evaluation
+
+Performance metric: Mean Absolute Error (MAE)
+
+Typical MAE: ~0.44 seconds per lap
